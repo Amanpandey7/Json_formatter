@@ -41,37 +41,23 @@ This Web Application is to validate and format JSON input provided by users. Fol
 ![Untitled Diagram drawio](https://github.com/user-attachments/assets/a91d43ea-731d-4efb-8294-95525022e992)
 
 
----
-
-##  Features
-
-- Format (pretty-print) JSON with 2-space indentation
-- Minify JSON (remove whitespace)
-- Validate JSON input and show detailed error messages
-- REST API endpoint using AWS Lambda + API Gateway
-- Simple, responsive frontend using HTML, CSS & JavaScript
-- Hosted entirely on AWS (S3, Lambda, API Gateway)
-
----
-
-
-
-## 🌐 Live Architecture Stack
-
 | Component        | Tech Used          |
 |------------------|--------------------|
 | Frontend Hosting | S3 (Static Website)|
 | Backend Logic    | AWS Lambda (Node.js)|
 | API Interface    | Amazon API Gateway |
-| Deployment       | Manual or IaC (optional) |
+| Deployment       | IaC (Terraform) |
 | Security         | CORS, IAM roles     |
 
 ---
 
-## 🚀 Getting Started
+##  Features
 
-### 1. Clone the Repository
+- Format JSON with 2-space indentation
+- Minify JSON (remove whitespace)
+- Validate JSON input and show detailed error messages
+- Secure REST API endpoint using AWS Lambda + API Gateway
+- Highly Available, Scalable and Cost Efficient design
 
-```bash
-git clone https://github.com/your-username/json-formatter-serverless.git
-cd json-formatter-serverless
+---
+
