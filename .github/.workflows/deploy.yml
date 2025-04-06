@@ -1,7 +1,7 @@
 name: Deploy to AWS
 
 on:
-  push:
+  merge:
     branches:
       - main   # Triggers dev environment deploy
       - prod   # Triggers prod environment deploy
