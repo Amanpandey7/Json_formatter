@@ -1,0 +1,80 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main   # Triggers dev environment deploy
+      - prod   # Triggers prod environment deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: us-east-1
+
+    steps:
+      # Step 1: Checkout the repo
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up AWS CLI using GitHub secrets
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # Step 3: Set environment name and bucket name dynamically
+      - name: Set environment variables
+        id: env
+        run: |
+          if [[ "${GITHUB_REF##*/}" == "prod" ]]; then
+            echo "ENVIRONMENT=prod" >> $GITHUB_OUTPUT
+            echo "S3_BUCKET_NAME=json-formatter-prod-site" >> $GITHUB_OUTPUT
+          else
+            echo "ENVIRONMENT=dev" >> $GITHUB_OUTPUT
+            echo "S3_BUCKET_NAME=json-formatter-dev-site" >> $GITHUB_OUTPUT
+          fi
+
+      # Step 4: Package Lambda function
+      - name: Package Lambda function
+        run: bash scripts/package_lambda.sh
+
+      # Step 5: Terraform Init & Apply
+      - name: Terraform Init and Apply
+        working-directory: infrastructure/environments/${{ steps.env.outputs.ENVIRONMENT }}
+        run: |
+          terraform init
+          terraform apply -auto-approve
+
+      # Step 6: Get API Gateway URL from Terraform output
+      - name: Get API Gateway URL
+        id: get_api
+        working-directory: infrastructure/environments/${{ steps.env.outputs.ENVIRONMENT }}
+        run: |
+          echo "API_URL=$(terraform output -raw api_gateway_url)" >> $GITHUB_OUTPUT
+
+      # Step 7: Create config.json with API URL
+      - name: Generate config.json
+        run: |
+          echo "{\"apiUrl\": \"${{ steps.get_api.outputs.API_URL }}\"}" > frontend/config.json
+
+      # Step 8: Deploy frontend to S3 bucket
+      - name: Deploy frontend to S3
+        run: |
+          aws s3 sync frontend/ s3://${{ steps.env.outputs.S3_BUCKET_NAME }} --delete
+
+      - name: Get API Gateway URL
+        id: gateway
+        run: echo "api_url=$(terraform output -raw api_gateway_url)" >> "$GITHUB_ENV"
+
+      - name: Write API URL to frontend/config.json
+        run: |
+          echo "{ \"api_url\": \"${{ env.api_url }}\" }" > frontend/config.json
+
+      - name: Sync frontend to S3
+        run: |
+          aws s3 sync frontend/ s3://${{ env.bucket_name }}/ --delete
+
