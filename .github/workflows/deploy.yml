@@ -1,7 +1,7 @@
 name: Deploy to AWS
 
 on:
-  merge:
+  pull_request:
     branches:
       - main   # Triggers dev environment deploy
       - prod   # Triggers prod environment deploy
@@ -41,6 +41,11 @@ jobs:
       # Step 4: Package Lambda function
       - name: Package Lambda function
         run: bash scripts/package_lambda.sh
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.6  # or your desired version
 
       # Step 5: Terraform Init & Apply
       - name: Terraform Init and Apply

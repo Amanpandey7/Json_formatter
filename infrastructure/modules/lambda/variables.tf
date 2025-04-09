@@ -3,10 +3,7 @@ variable "function_name" {
   type        = string
 }
 
-variable "lambda_package" {
-  description = "Path to zipped Lambda code"
-  type        = string
-}
+
 
 variable "environment_variables" {
   description = "Environment variables for Lambda"
@@ -19,3 +16,44 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+
+variable "handler" {
+  description = "Lambda handler"
+  type        = string
+}
+
+variable "runtime" {
+  description = "Lambda runtime"
+  type        = string
+}
+
+variable "role_arn" {
+  description = "IAM role ARN for Lambda execution"
+  type        = string
+}
+
+variable "source_path" {
+  description = "Path to the source code directory for the Lambda function"
+  type        = string
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
