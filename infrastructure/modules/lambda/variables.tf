@@ -3,10 +3,7 @@ variable "function_name" {
   type        = string
 }
 
-variable "lambda_package" {
-  description = "Path to zipped Lambda code"
-  type        = string
-}
+
 
 variable "environment_variables" {
   description = "Environment variables for Lambda"

@@ -1,45 +1,15 @@
-resource "aws_iam_role" "lambda_exec_role" {
-  name = "${var.function_name}-exec-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        Service = "lambda.amazonaws.com"
-      }
-      Action = "sts:AssumeRole"
-    }]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "lambda_basic_execution" {
-  role       = aws_iam_role.lambda_exec_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-}
-
-resource "aws_lambda_function" "json_formatter" {
-  function_name = var.function_name
-  filename      = var.lambda_package
-  handler       = "main.lambda_handler"
-  runtime       = "python3.9"
-  role          = aws_iam_role.lambda_exec_role.arn
-  source_code_hash = filebase64sha256(var.lambda_package)
-
-  environment {
-    variables = var.environment_variables
-  }
-
-  tags = var.tags
-}
-
 resource "aws_lambda_function" "this" {
-  function_name = "json-formatter-lambda"
-  filename      = var.lambda_package
+  function_name = var.function_name
   handler       = var.handler
   runtime       = var.runtime
   role          = var.role_arn
-  source_code_hash = filebase64sha256(var.lambda_package)
+
+  filename         = data.archive_file.lambda_output.output_path
+  source_code_hash = data.archive_file.lambda_output.output_base64sha256
 }
 
-
+data "archive_file" "lambda_output" {
+  type        = "zip"
+  source_dir  = var.source_path
+  output_path = "${path.module}/build/${var.function_name}.zip"
+}
