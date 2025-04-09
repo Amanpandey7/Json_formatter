@@ -33,6 +33,12 @@ variable "role_arn" {
   type        = string
 }
 
+variable "source_path" {
+  description = "Path to the source code directory for the Lambda function"
+  type        = string
+}
+
+
 
 
 

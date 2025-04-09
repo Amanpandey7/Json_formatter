@@ -13,3 +13,5 @@ data "archive_file" "lambda_output" {
   source_dir  = var.source_path
   output_path = "${path.module}/build/${var.function_name}.zip"
 }
+
+
