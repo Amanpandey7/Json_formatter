@@ -35,34 +35,10 @@ output "api_gateway_url" {
   value = module.api_gateway.api_gateway_url
 }
 
-module "lambda" {
-  source          = "../../modules/lambda"
-  lambda_package  = "${path.module}/../../../../lambda/lambda.zip"
-  handler         = "main.lambda_handler"
-  runtime         = "python3.9"
-  role_arn        = var.lambda_role_arn
-}
 
-module "lambda" {
-  source          = "../../modules/lambda"
-  lambda_package  = "${path.module}/../../../../lambda/lambda.zip"
-  handler         = "main.lambda_handler"
-  runtime         = "python3.9"
-  role_arn        = var.lambda_role_arn
-}
 
-module "lambda" {
-  source          = "../../modules/lambda"
-  lambda_package  = "${path.module}/../../../lambda/lambda.zip"
-  handler         = "main.lambda_handler"
-  runtime         = "python3.9"
-  role_arn        = var.lambda_role_arn
-}
 
-module "lambda" {
-  source          = "../../modules/lambda"
-  lambda_package  = "${path.module}/../../../lambda/lambda.zip"
-  handler         = "main.lambda_handler"
-  runtime         = "python3.9"
-  role_arn        = var.lambda_role_arn
-}
+
+
+
+

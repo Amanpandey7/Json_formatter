@@ -19,10 +19,7 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
-variable "lambda_package" {
-  description = "Path to the zip file of the Lambda code"
-  type        = string
-}
+
 
 variable "handler" {
   description = "Lambda handler"
@@ -39,62 +36,21 @@ variable "role_arn" {
   type        = string
 }
 
-variable "lambda_package" {
-  description = "Path to the Lambda deployment package (ZIP file)"
-  type        = string
-}
 
-variable "handler" {
-  description = "The function entrypoint in your code"
-  type        = string
-}
 
-variable "runtime" {
-  description = "Lambda runtime version"
-  type        = string
-}
 
-variable "role_arn" {
-  description = "IAM Role ARN for the Lambda function"
-  type        = string
-}
 
-variable "lambda_package" {
-  description = "Path to the Lambda deployment package"
-  type        = string
-}
 
-variable "handler" {
-  description = "Lambda function handler"
-  type        = string
-}
 
-variable "runtime" {
-  description = "Lambda runtime"
-  type        = string
-}
 
-variable "role_arn" {
-  description = "IAM Role ARN to attach to Lambda function"
-  type        = string
-}
 
-variable "lambda_package" {
-  description = "Path to the Lambda deployment package (ZIP file)"
-  type        = string
-}
 
-variable "handler" {
-  description = "The function entrypoint in your code"
-  type        = string
-}
 
-variable "runtime" {
-  description = "Lambda runtime version"
-  type        = string
-}
 
-variable "role_arn" {
-  description = "IAM Role ARN for the Lambda function"
-  type        = string
-}
+
+
+
+
+
+
+

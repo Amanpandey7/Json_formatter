@@ -42,11 +42,4 @@ resource "aws_lambda_function" "this" {
   source_code_hash = filebase64sha256(var.lambda_package)
 }
 
-resource "aws_lambda_function" "this" {
-  function_name    = "json-formatter-lambda"
-  filename         = var.lambda_package
-  handler          = var.handler
-  runtime          = var.runtime
-  role             = var.role_arn
-  source_code_hash = filebase64sha256(var.lambda_package)
-}
+
